@@ -1,0 +1,25 @@
+---
+- name: Check for existing install of search api solr
+  stat: "path=/opt/{{ solr_file }}/example/solr/collection1/conf/schema.xml"
+  register: solr_search_api_example
+
+- name: Ensure solr_home directory exists.
+  file:
+    path: "/opt/{{ solr_file }}/example/solr/collection1/conf"
+    state: directory
+    owner: "{{ solr_user }}"
+    group: "{{ solr_user }}"
+    mode: 0755
+  when: not solr_search_api_example.stat.exists
+
+- name: Downloading Search API Solr
+  shell: "curl -SL https://ftp.drupal.org/files/projects/search_api_solr-{{ search_api_solr_version }}.tar.gz | tar -xzC /tmp"
+  when: not solr_search_api_example.stat.exists
+
+- name: Moving Search API Solr into place
+  shell: "cp -R /tmp/search_api_solr/solr-conf/{{ solr_base_version }}/* /opt/{{ solr_file }}/example/solr/collection1/conf"
+  when: not solr_search_api_example.stat.exists
+
+- name: Updating solr user files
+  shell: "chown -R {{ solr_user }}:{{ solr_user }} {{ solr_install_path }}"
+  when: not solr_search_api_example.stat.exists

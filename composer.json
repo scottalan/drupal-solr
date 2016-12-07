@@ -1,0 +1,14 @@
+{
+    "name": "scottalan/solr",
+    "type": "project",
+    "description": "A VM for solr",
+    "keywords": ["vagrant", "solr"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Scott Alan Henry",
+            "homepage": "https://github.com/scottalan"
+        }
+    ],
+    "require": {}
+}
